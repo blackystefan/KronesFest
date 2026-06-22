@@ -5,62 +5,63 @@
 <title>Krones Fest</title>
 
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #f7f7f7;
-    text-align: center;
-    margin-top: 100px;
-    overflow: hidden;
-  }
+body {
+  font-family: Arial, sans-serif;
+  background: #dbeafe;
+  text-align: center;
+  margin-top: 100px;
+  overflow: hidden;
+}
 
-  button {
-    font-size: 20px;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    margin: 8px;
-  }
+button {
+  font-size: 20px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 8px;
+}
 
-  #btnYes { background: #2e7d32; color: white; }
-  #btnNo { background: #c62828; color: white; }
+#btnYes { background: #2e7d32; color: white; }
+#btnNo { background: #c62828; color: white; }
 
-  #phase2_yes,
-  #phase2_no {
-    display: none;
-    margin-top: 40px;
-  }
+#phase2_yes,
+#phase2_no,
+#phase3 {
+  display: none;
+  margin-top: 40px;
+}
 
-  .choiceBtn {
-    background: #1565c0;
-    color: white;
-  }
+.choiceBtn {
+  background: #2563eb;
+  color: white;
+}
 
-  #runawayBtn {
-    position: absolute;
-    background: #c62828;
-    color: white;
-    display: none;
-  }
+#runawayBtn {
+  position: absolute;
+  background: #c62828;
+  color: white;
+  display: none;
+}
 
-  #sadHamster {
-    display: none;
-    width: 240px;
-    margin: 20px auto;
-    border-radius: 12px;
-  }
+#sadHamster {
+  display: none;
+  width: 240px;
+  margin: 20px auto;
+  border-radius: 12px;
+}
 
-  @keyframes shake {
-    0% { transform: translate(0, 0) rotate(0deg); }
-    25% { transform: translate(2px, -2px) rotate(-1deg); }
-    50% { transform: translate(-2px, 2px) rotate(1deg); }
-    75% { transform: translate(2px, 2px) rotate(0deg); }
-    100% { transform: translate(0, 0) rotate(0deg); }
-  }
+@keyframes shake {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(2px, -2px) rotate(-1deg); }
+  50% { transform: translate(-2px, 2px) rotate(1deg); }
+  75% { transform: translate(2px, 2px) rotate(0deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
 
-  .shake {
-    animation: shake 0.12s infinite;
-  }
+.shake {
+  animation: shake 0.12s infinite;
+}
 </style>
 </head>
 
@@ -71,7 +72,6 @@
 <button id="btnYes" onclick="yesClick()">Ja👍🏻</button>
 <button id="btnNo" onclick="noClick()">Nein👎🏻</button>
 
-<!-- PHASE 2 JA -->
 <div id="phase2_yes">
   <h2>Super! Freut mich, dass du ja gesagt hast 😂 Wie wollen wir es machen? 🙂</h2>
 
@@ -79,12 +79,18 @@
   <button class="choiceBtn" onclick="meet()">Wir treffen uns dort 🎡</button>
 </div>
 
-<!-- PHASE 2 NEIN -->
+<div id="phase3">
+  <h2>Noch eine wichtige Frage 😄</h2>
+  <p>Wie gehen wir aufs Krones Fest?</p>
+
+  <button class="choiceBtn" onclick="outfitChosen('tracht')">In Tracht 👗</button>
+  <button class="choiceBtn" onclick="outfitChosen('leger')">Eher leger 😎</button>
+</div>
+
 <div id="phase2_no">
   <h2>Bist du dir sicher?</h2>
 
-  <img
-    id="sadHamster"
+  <img id="sadHamster"
     src="https://media.giphy.com/media/98MaHVwJOmWMz4cz1K/giphy.gif"
     alt="Sad Hamster">
 
@@ -100,15 +106,13 @@ let runawayBtn;
 let runawayMode = false;
 let escapeCount = 0;
 let lastEscape = 0;
-
-// ================= PHASE 1 =================
+let selectedTravelType = "";
 
 function yesClick() {
   document.getElementById("btnYes").style.display = "none";
   document.getElementById("btnNo").style.display = "none";
 
   launchConfetti();
-
   document.getElementById("phase2_yes").style.display = "block";
 }
 
@@ -121,8 +125,6 @@ function noClick() {
 
   activateRunawayImmediately();
 }
-
-// ================= PHASE 2 NO =================
 
 function goBack() {
   document.getElementById("phase2_no").style.display = "none";
@@ -141,14 +143,26 @@ function goBack() {
   }
 }
 
-// ================= RUNAWAY =================
+function pickup() {
+  selectedTravelType = "pickup";
+  document.getElementById("phase2_yes").style.display = "none";
+  document.getElementById("phase3").style.display = "block";
+}
+
+function meet() {
+  selectedTravelType = "meet";
+  document.getElementById("phase2_yes").style.display = "none";
+  document.getElementById("phase3").style.display = "block";
+}
+
+function outfitChosen(outfit) {
+  finish(selectedTravelType, outfit);
+}
 
 function activateRunawayImmediately() {
-
   runawayBtn = document.getElementById("runawayBtn");
 
   runawayBtn.style.display = "inline-block";
-
   runawayBtn.style.left = "50%";
   runawayBtn.style.top = "60%";
   runawayBtn.style.transform = "translate(-50%, -50%)";
@@ -162,14 +176,12 @@ function activateRunawayImmediately() {
 
   runawayBtn.ontouchstart = function(e) {
     if (!runawayMode) return;
-
     e.preventDefault();
     escape();
   };
 }
 
 function escape() {
-
   const now = Date.now();
 
   if (now - lastEscape < 200) return;
@@ -193,27 +205,16 @@ function escape() {
   runawayBtn.style.transform = "none";
 }
 
-// ================= EMOTION =================
-
 function updateEmotion() {
-
   if (escapeCount === 1) {
     runawayBtn.innerText = "Stop!";
-  }
-
-  else if (escapeCount === 2) {
+  } else if (escapeCount === 2) {
     runawayBtn.innerText = "Warte kurz";
-  }
-
-  else if (escapeCount === 3) {
+  } else if (escapeCount === 3) {
     runawayBtn.innerText = "Wirklich?";
-  }
-
-    else if (escapeCount === 4) {
+  } else if (escapeCount === 4) {
     runawayBtn.innerText = "Bist du dir ganz sicher?";
-  }
-
-  else {
+  } else {
     runawayBtn.innerText = "Haha! Du wirst diesen Button niemals erwischen!";
   }
 
@@ -222,56 +223,123 @@ function updateEmotion() {
   }
 }
 
-// ================= JA FLOW =================
+function finish(type, outfit) {
 
-function pickup() {
-  finish("pickup");
-}
+  const actionText =
+    type === "pickup"
+      ? "🚗 Ich hole dich ab"
+      : "🎡 Wir treffen uns dort";
 
-function meet() {
-  finish("meet");
-}
-
-function finish(type) {
+  const outfitText =
+    outfit === "tracht"
+      ? "👗 Natürlich in Tracht"
+      : "😎 Eher leger";
 
   document.body.innerHTML = `
-    <div style="font-family:Arial; text-align:center; margin-top:100px;">
-      <h1>Gut, dass du nicht Nein gesagt hast 😏 P.S. Normale Leute schicken eine WhatsApp. Ich hab halt eine Website gebaut - kein großes Ding.</h1>
+    <div style="
+      min-height:100vh;
+      background:#dbeafe;
+      font-family:Arial,sans-serif;
+      text-align:center;
+      padding:40px 20px;
+      box-sizing:border-box;
+    ">
 
-      <p>Wollen wir alle Details in WhatsApp klären?🙂</p>
+      <h1 style="font-size:32px;margin-bottom:30px;color:#111;">
+        Gut dass du nicht Nein gesagt hast 😉
+      </h1>
 
-      <button onclick="openWhatsApp('${type}')"
+      <div style="
+        background:#fff;
+        max-width:520px;
+        margin:0 auto;
+        padding:30px;
+        border-radius:25px;
+        text-align:left;
+        box-shadow:0 6px 20px rgba(0,0,0,.08);
+      ">
+
+        <div style="color:#777;font-size:14px;">📅 &nbsp; SEI BEREIT AM</div>
+
+        <div style="font-size:32px;font-weight:bold;margin-top:8px;">
+          Freitag, 27. Jun · 19:00 Uhr
+        </div>
+
+        <div style="color:#666;margin-top:8px;font-size:20px;">
+          📍 Krones Fest
+        </div>
+
+        <hr style="border:none;border-top:1px solid #eee;margin:25px 0;">
+
+        <div style="color:#777;font-size:14px;">🚗 &nbsp; ANREISE</div>
+
+        <div style="font-size:30px;font-weight:bold;margin-top:8px;">
+          ${actionText}
+        </div>
+
+        <hr style="border:none;border-top:1px solid #eee;margin:25px 0;">
+
+        <div style="color:#777;font-size:14px;">👕 &nbsp; DRESSCODE</div>
+
+        <div style="font-size:30px;font-weight:bold;margin-top:8px;">
+          ${outfitText}
+        </div>
+
+      </div>
+
+      <button
+        onclick="openWhatsApp('${type}','${outfit}')"
         style="
-          font-size:20px;
-          padding:12px 20px;
+          margin-top:30px;
           background:#25D366;
           color:white;
           border:none;
-          border-radius:10px;">
-        WhatsApp öffnen 💬
+          border-radius:999px;
+          padding:20px 45px;
+          font-size:26px;
+          font-weight:bold;
+          cursor:pointer;
+          box-shadow:0 8px 20px rgba(37,211,102,.25);
+        ">
+        WhatsApp Bestätigung senden 💬
       </button>
+
+      <div style="
+        margin-top:25px;
+        color:#666;
+        font-style:italic;
+        font-size:18px;
+        line-height:1.5;
+      ">
+        P.S. Normale Leute schicken eine WhatsApp.<br>
+        Ich hab eine Website gebaut. Kein großes Ding.
+      </div>
+
     </div>
   `;
 
   launchConfetti();
 }
 
-// ================= WHATSAPP =================
-
-function openWhatsApp(type) {
+function openWhatsApp(type, outfit) {
 
   const number = "4915142327096";
 
-  const text =
-    type === "pickup"
-      ? "Hey 🙂 bitte hole mich fürs Krones Fest ab 🚗"
-      : "Hey, wir treffen uns direkt beim Krones Fest🎡";
+  let text = "";
+
+  if (type === "pickup") {
+    text = "Hey 🙂 bitte hole mich fürs Krones Fest ab 🚗";
+  } else {
+    text = "Hey 🙂 wir treffen uns direkt beim Krones Fest 🎡";
+  }
+
+  text += outfit === "tracht"
+    ? " Ich komme in Tracht 👗"
+    : " Ich komme eher leger 😎";
 
   window.location.href =
     `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
 }
-
-// ================= CONFETTI =================
 
 function launchConfetti() {
 
