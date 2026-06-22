@@ -2,6 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Krones Fest</title>
 
 <style>
@@ -9,13 +10,15 @@ body {
   font-family: Arial, sans-serif;
   background: #dbeafe;
   text-align: center;
-  margin-top: 100px;
-  overflow: hidden;
+  margin: 0;
+  padding: 30px 16px;
+  overflow-x: hidden;
 }
 
 button {
-  font-size: 20px;
-  padding: 12px 20px;
+  font-size: 22px;
+  padding: 16px 22px;
+  width: min(100%, 420px);
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -67,19 +70,19 @@ button {
 
 <body>
 
-<h1>Hey Karo 🙂, möchtest du jetzt mit aufs Krones Fest kommen? 🎡</h1>
+<h1 style="font-size:34px;line-height:1.3;max-width:700px;margin:20px auto;">Hey Karo 🙂, möchtest du jetzt mit aufs Krones Fest kommen? 🎡</h1>
 
 <button id="btnYes" onclick="yesClick()">Ja👍🏻</button>
 <button id="btnNo" onclick="noClick()">Nein👎🏻</button>
 
-<div id="phase2_yes">
+<div id="phase2_yes" style="max-width:700px;margin:auto;">
   <h2>Super! Freut mich, dass du ja gesagt hast 😂 Wie wollen wir es machen? 🙂</h2>
 
   <button class="choiceBtn" onclick="pickup()">Hier Abholservice Schwarz buchen 🚗</button>
   <button class="choiceBtn" onclick="meet()">Wir treffen uns dort 🎡</button>
 </div>
 
-<div id="phase3">
+<div id="phase3" style="max-width:700px;margin:auto;">
   <h2>Noch eine wichtige Frage 😄</h2>
   <p>Wie gehen wir aufs Krones Fest?</p>
 
@@ -87,7 +90,7 @@ button {
   <button class="choiceBtn" onclick="outfitChosen('leger')">Eher leger 😎</button>
 </div>
 
-<div id="phase2_no">
+<div id="phase2_no" style="max-width:700px;margin:auto;">
   <h2>Bist du dir sicher?</h2>
 
   <img id="sadHamster"
