@@ -83,15 +83,15 @@ button {
 </div>
 
 <div id="phase3" style="max-width:700px;margin:auto;">
-  <h2>Noch eine wichtige Frage 😄</h2>
-  <p>Wie gehen wir aufs Krones Fest?</p>
+  <h2>Noch eine wichtige Frage:</h2>
+  <p>Wie gehen wir aufs Krones Fest?😬 </p>
 
   <button class="choiceBtn" onclick="outfitChosen('tracht')">In Tracht 👗</button>
   <button class="choiceBtn" onclick="outfitChosen('leger')">Eher leger 😎</button>
 </div>
 
 <div id="phase2_no" style="max-width:700px;margin:auto;">
-  <h2>Bist du dir sicher?</h2>
+  <h2>Bist du dir ganz sicher?</h2>
 
   <img id="sadHamster"
     src="https://media.giphy.com/media/98MaHVwJOmWMz4cz1K/giphy.gif"
@@ -99,7 +99,7 @@ button {
 
   <br>
 
-  <button onclick="goBack()">Nein</button>
+  <button onclick="goBack()">Nein👉👈</button>
   <button id="runawayBtn">Ja</button>
 </div>
 
@@ -212,13 +212,13 @@ function updateEmotion() {
   if (escapeCount === 1) {
     runawayBtn.innerText = "Stop!";
   } else if (escapeCount === 2) {
-    runawayBtn.innerText = "Warte kurz";
+    runawayBtn.innerText = "Warte kurz!";
   } else if (escapeCount === 3) {
     runawayBtn.innerText = "Wirklich?";
   } else if (escapeCount === 4) {
     runawayBtn.innerText = "Bist du dir ganz sicher?";
   } else {
-    runawayBtn.innerText = "Zu langsam 😏";
+    runawayBtn.innerText = "Haha, zu langsam!😬 ";
   }
 
   if (escapeCount >= 3) {
@@ -249,7 +249,7 @@ function finish(type, outfit) {
     ">
 
       <h1 style="font-size:32px;margin-bottom:30px;color:#111;">
-        Gut dass du nicht Nein gesagt hast 😉
+        Gut, dass du nicht "Nein" gesagt hast! 😬
       </h1>
 
       <div style="
@@ -265,7 +265,7 @@ function finish(type, outfit) {
         <div style="color:#777;font-size:14px;">📅 &nbsp; SEI BEREIT AM</div>
 
         <div style="font-size:32px;font-weight:bold;margin-top:8px;">
-          Freitag, 27. Jun · 19:00 Uhr
+          Freitag, 27. Jun · 18:00 Uhr
         </div>
 
         <div style="color:#666;margin-top:8px;font-size:20px;">
